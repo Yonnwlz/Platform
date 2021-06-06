@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: lz-after
+  ##数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://1.15.223.227:3306/lz
+    username: root
+    password: 123456
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
+      additional-paths: resources/**,static/**,templates/**
+server:
+  port: 9001
+##mybatis配置
+mybatis:
+  type-aliases-package: com.lz.model.pojo     # 所有POJO类所在包路径 所有映射的实体类
+  mapper-locations: classpath:/mapper/*.xml   # mapper映射文件 classpath 指的是所属有resources文件目录
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+##eureka注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://1.15.223.227:8761/eureka/
+aliyun:
+  endpoint: https://oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAI5t8uuf2L74591rgEaFFd
+  accessKeySecret: 4xdfS2xTzevsy7KQFxjFh3ZqCWMRIY
+  bucketName: inwocb
+  objectName: yonnwimages/

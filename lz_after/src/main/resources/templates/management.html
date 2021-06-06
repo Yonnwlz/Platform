@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>管理员管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="after/plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="after/plugins/adminLTE/css/_all-skins.min.css"/>
+	<link rel="stylesheet" href="css/managementOperations.css" />
+	<link rel="stylesheet" href="after/plugins/bootstrap/css/bootstrap.min.css"/>
+
+   <!-- <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css"> -->
+    <!-- <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css"> -->
+   <!-- <link rel="stylesheet" href="../css/style.css"> -->
+   <script src="js/Jquery/jquery-2.2.3.min.js"></script>
+   <script src="after/plugins/bootstrap/js/bootstrap.min.js"></script>
+   <script src="js/vue/vuejs-paginate.js"></script>
+	<!-- <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script> -->
+	<script src="js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue/axios.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" >
+  <!-- .box-body -->
+  <div id="magPage">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">管理员管理</h3>
+                    </div>
+
+                    <div class="box-body">
+
+                        <!-- 数据表格 -->
+                        <div class="table-box">
+
+                            <!--工具栏-->
+                            <div class="pull-left">
+                                <div class="form-group form-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default" title="新建" ><i class="fa fa-file-o"></i> 新建</button>
+                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" title="提交审核" ><i class="fa fa-check"></i> 提交审核</button>
+                                        <button type="button" class="btn btn-default" title="屏蔽" onclick='confirm("你确认要屏蔽吗？")'><i class="fa fa-ban"></i> 屏蔽</button>
+                                        <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-tools pull-right">
+                                <div class="has-feedback">
+                                  状态：<select v-model="searchParam.adminstate">
+                                         	<option value="">全部</option>
+                                         	<option value="0">在线</option>
+                                         	<option value="1">离线</option>
+                                         	<option value="2">异常</option>
+                                         	<option value="3">冻结</option>
+                                        </select>
+									角色：<select v-model="searchParam.roleName">
+											<option value="">全部</option>
+											<option value="0">全站管理员</option>
+											<option value="1">普通管理员</option>
+											<option value="2">商户管理员</option>
+										</select>
+									地区：<select>
+											<option value="">全部</option>
+											<option value="0">湖南</option>
+											<option value="1">湖北</option>
+											<option value="2">邵阳</option>
+										</select>
+							                  管理员昵称：<input v-model="searchParam.adminName"/>
+									<button class="btn btn-default" @click="getAllAdmin()">查询</button>
+                                </div>
+                            </div>
+                            <!--工具栏/-->
+			                  <!--数据列表-->
+			                  <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			                      <thead>
+			                          <tr>
+			                              <th class="" style="padding-right:0px">
+			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                              </th> 
+										  <th class="sorting_asc">管理员昵称</th>
+									      <th class="sorting">管理员图像</th>
+									      <th class="sorting">管理员账号</th>
+									      <th class="sorting">联系方式</th>
+									      <th class="sorting">联系地址</th>
+									      <th class="sorting">管理员角色</th>
+										  <th class="sorting">状态</th>
+										  <th class="text-center">操作</th>
+
+			                          </tr>
+			                      </thead>
+			                      <tbody>
+									  <tr v-for="item in searchResult.list">
+										  <td><input  type="checkbox">
+										  <td v-text="item.adminname"></td>
+										  <td>
+											  <!-- 管理员头像 -->
+										  	<img :src="item.adminimage" style="width: 80px;height: 80px"/>
+											  <input type="button" value="查看大头像"/>
+										  </td>
+										  <td v-text="item.adminaccount"></td>
+										  <td v-text="item.adminphone"></td>
+										  <td v-text="item.adminaddress"></td>
+										  <td v-text="item.roleName">
+												<span>
+													未申请
+												</span>
+											  <span >
+													申请中
+												</span>
+											  <span>
+													审核通过
+												</span>
+											  <span>
+													已驳回
+												</span>
+										  </td>
+
+										  <td v-if="item.adminstate == '0'">
+											  在线
+										  </td>
+										  <td v-else-if="item.adminstate == '1'">
+											  离线
+										  </td>
+										  <td v-else-if="item.adminstate == '2'">
+											  异常
+										  </td>
+										  <td v-else>
+											  冻结
+										  </td>
+
+										  <td class="text-center">
+											  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" @click="getadminDesc(item.adminid)" data-target="#sellerModal">详情</button>
+										  </td>
+									  </tr>
+			                      </tbody>
+			                  </table>
+
+
+							 
+                        </div>
+						<!--分页开始-->
+						<paginate :container-class="'pagination'" :page-count="pageCount"
+								  :click-handler="getAllAdmin" :prev-text="'上一页'" :next-text="'下一页'"
+								  :first-last-button="false" v-model="searchParam.pageNum"/>
+						<!--分页结束-->
+                        
+                     </div>
+                    <!-- /.box-body -->
+	    			  <!-- 管理员详情 -->
+					  <div v-if="searchResultDesc!=null" class="modal fade" id="sellerModal" style="margin-top: -220px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-lg" >
+							  <div class="modal-content">
+								  <div class="modal-header">
+									  <button type="button" class="close" data-dismiss="modal" @click="descCloud" aria-hidden="true">×</button>
+									  <h3 id="myModalLabel">管理员详情</h3>
+								  </div>
+								  <div class="modal-body">
+									  <ul class="nav nav-tabs">
+										  <li class="active"><a href="#home" data-toggle="tab">基本信息</a></li>
+										  <li><a href="#linkman" data-toggle="tab">状态管理</a></li>
+										  <li><a href="#certificate" data-toggle="tab">角色管理</a></li>
+										  <li><a href="#ceo" data-toggle="tab">模块管理</a></li>
+										  <li><a href="#bank" data-toggle="tab">拥有店铺</a></li>
+									  </ul>
+									  <!-- 选项卡开始 -->
+									  <div id="myTabContent" class="tab-content">
+										  <div class="tab-pane active in" id="home">
+											  <br>
+											  <table class="table table-bordered table-striped"  width="800px">
+												  <tr>
+													  <td>管理员昵称</td>
+													  <td>
+													  	<input id="disaAdminName" class="remverDisabled" disabled="disabled" v-model="searchResultDesc.admin.adminname"/>
+													  </td>
+												  </tr>
+												  <tr>
+													  <td>管理员图像</td>
+													  <td>
+														  <img :src="searchResultDesc.admin.adminimage">
+														  <input type="file" style="display: block" class="remverDisabled" value="上传新图像"/>
+													  </td>
+												  </tr>
+												  <tr>
+													  <td>管理员账号</td>
+													  <td>{{searchResultDesc.admin.adminaccount}}</td>
+												  </tr>
+												  <tr>
+													  <td>联系方式</td>
+													  <td>
+														  <input class="remverDisabled" disabled="disabled" v-model="searchResultDesc.admin.adminphone"/>
+													  </td>
+												  </tr>
+												  <tr>
+													  <td>联系地址</td>
+													  <td>
+														  <input class="remverDisabled" disabled="disabled" v-model="searchResultDesc.admin.adminaddress"/>
+													  </td>
+												  </tr>
+												  <tr>
+													  <td>创建时间</td>
+													  <td>{{searchResultDesc.admin.admincreatedate}}</td>
+												  </tr>
+												  <tr>
+													  <td>管理员描述</td>
+													  <td>
+														  <textarea cols="40" rows="5" class="remverDisabled" disabled="disabled" v-model="searchResultDesc.admin.admindetails">{{searchResultDesc.admin.admindetails}}</textarea>
+													  </td>
+												  </tr>
+											  </table>
+											  <input type="button" value="修改" @click="updateAdminModify(null)"/>
+											  <input type="button" value="确定修改" @click="updateAdminModify(searchResultDesc.admin.adminid)">
+										  </div>
+										  <div class="tab-pane fade" id="linkman">
+											  <br>
+											  <table class="table table-bordered table-striped" >
+												  <tr>
+													  <td>当前状态</td>
+													  <td>
+														  <span v-if="searchResultDesc.admin.adminstate=='0'">
+															  在线
+														  </span>
+														  <span v-else-if="searchResultDesc.admin.adminstate=='1'">
+															  离线
+														  </span>
+														  <span v-else-if="searchResultDesc.admin.adminstate=='2'">
+															  异常
+														  </span>
+														  <span v-else="searchResultDesc.admin.adminstate=='3'">
+															  冻结
+														  </span>
+														  <select v-show="isShowState" v-model="searchResultDesc.admin.adminstate">
+															  <option value="0">在线</option>
+															  <option value="1">离线</option>
+															  <option value="2">异常</option>
+															  <option value="3">冻结</option>
+														  </select>
+													  </td>
+												  </tr>
+											  </table>
+											  <input type="button" value="修改状态" @click="updateAdminState(null)"/>
+											  <input type="button" value="确定修改状态" v-show="isShowState" @click="updateAdminState(searchResultDesc.admin.adminid)"/>
+										  </div>
+										  <div class="tab-pane fade" id="certificate">
+											  <br>
+											  <table class="table table-bordered table-striped" >
+												  <tr>
+													  <td>当前角色</td>
+													  <td>
+														  <span v-if="searchResultDesc.rolerela.roleid=='1'">
+															  全站管理员
+														  </span>
+														  <span v-else-if="searchResultDesc.rolerela.roleid=='2'">
+															  普通管理员
+														  </span>
+														  <span v-else-if="searchResultDesc.rolerela.roleid=='3'">
+															  商户管理员
+														  </span>
+														  <select v-show="isShowRole" v-model="searchResultDesc.rolerela.roleid">
+															  <option value="1">全站管理员</option>
+															  <option value="2">普通管理员</option>
+															  <option value="3">商户管理员</option>
+														  </select>
+													  </td>
+												  </tr>
+											  </table>
+											  <input type="button" value="修改角色" @click="updateAdminRole(null)"/>
+											  <input type="button" value="确定角色状态" v-show="isShowRole" @click="updateAdminRole(searchResultDesc.admin.adminid)"/>
+										  </div>
+										  <div class="tab-pane fade" id="ceo">
+											  <br>
+											  <table class="table table-bordered table-striped" >
+												  <tr>
+													  <td>父模块</td>
+													  <td>2343</td>
+												  </tr>
+												  <tr>
+													  <td>法定代表人身份证号</td>
+													  <td>211030198503223122</td>
+												  </tr>
+											  </table>
+										  </div>
+										  <div class="tab-pane fade" id="bank">
+											  <br>
+											  <table class="table table-bordered table-striped" >
+												  <tr>
+													  <td>开户行名称</td>
+													  <td>中国建设银行北京市分行</td>
+												  </tr>
+												  <tr>
+													  <td>开户行支行</td>
+													  <td>海淀支行</td>
+												  </tr>
+												  <tr>
+													  <td>银行账号</td>
+													  <td>999000111222</td>
+												  </tr>
+											  </table>
+
+										  </div>
+									  </div>
+									  <!-- 选项卡结束 -->
+
+
+								  </div>
+								  <div class="modal-footer">
+
+									  <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" >审核通过</button>
+									  <button class="btn btn-danger"  data-dismiss="modal" aria-hidden="true">审核未通过</button>
+									  <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭商家</button>
+									  <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+								  </div>
+							  </div>
+						  </div>
+					  </div>
+  </div>
+</body>
+
+</html>
+<script type="text/javascript" src="js/vue/management.js"></script>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lz_after" />
+        <module name="lz_registered" />
+        <module name="lz_oss_api" />
+        <module name="lz_model" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lz_after_web" target="1.8" />
+      <module name="lz_oss_api" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lz_after" options="-parameters" />
+      <module name="lz_after_web" options="-parameters" />
+      <module name="lz_oss_api" options="-parameters" />
+      <module name="lz_registered" options="-parameters" />
+    </option>
+  </component>
+</project>

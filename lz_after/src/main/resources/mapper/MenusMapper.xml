@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.dao.MenusMapper">
+  <resultMap id="BaseResultMap" type="com.lz.model.pojo.Menus">
+    <id column="menuId" jdbcType="INTEGER" property="menuid" />
+    <result column="menuParentId" jdbcType="INTEGER" property="menuparentid" />
+    <result column="menuName" jdbcType="VARCHAR" property="menuname" />
+    <result column="menuUrl" jdbcType="VARCHAR" property="menuurl" />
+    <result column="menuImageUrl" jdbcType="VARCHAR" property="menuimageurl" />
+    <result column="menuTIP" jdbcType="VARCHAR" property="menutip" />
+    <result column="menuStatus" jdbcType="INTEGER" property="menustatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    menuId, menuParentId, menuName, menuUrl, menuImageUrl, menuTIP, menuStatus
+  </sql>
+  <select id="selectByExample" parameterType="com.lz.model.pojo.MenusExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menus
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from menus
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lz.model.pojo.MenusExample">
+    delete from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lz.model.pojo.Menus">
+    insert into menus (menuId, menuParentId, menuName, 
+      menuUrl, menuImageUrl, menuTIP, 
+      menuStatus)
+    values (#{menuid,jdbcType=INTEGER}, #{menuparentid,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, 
+      #{menuurl,jdbcType=VARCHAR}, #{menuimageurl,jdbcType=VARCHAR}, #{menutip,jdbcType=VARCHAR}, 
+      #{menustatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lz.model.pojo.Menus">
+    insert into menus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        menuId,
+      </if>
+      <if test="menuparentid != null">
+        menuParentId,
+      </if>
+      <if test="menuname != null">
+        menuName,
+      </if>
+      <if test="menuurl != null">
+        menuUrl,
+      </if>
+      <if test="menuimageurl != null">
+        menuImageUrl,
+      </if>
+      <if test="menutip != null">
+        menuTIP,
+      </if>
+      <if test="menustatus != null">
+        menuStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuid != null">
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="menuparentid != null">
+        #{menuparentid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null">
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null">
+        #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuimageurl != null">
+        #{menuimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menutip != null">
+        #{menutip,jdbcType=VARCHAR},
+      </if>
+      <if test="menustatus != null">
+        #{menustatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lz.model.pojo.MenusExample" resultType="java.lang.Long">
+    select count(*) from menus
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update menus
+    <set>
+      <if test="record.menuid != null">
+        menuId = #{record.menuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuparentid != null">
+        menuParentId = #{record.menuparentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuname != null">
+        menuName = #{record.menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuurl != null">
+        menuUrl = #{record.menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuimageurl != null">
+        menuImageUrl = #{record.menuimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menutip != null">
+        menuTIP = #{record.menutip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menustatus != null">
+        menuStatus = #{record.menustatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update menus
+    set menuId = #{record.menuid,jdbcType=INTEGER},
+      menuParentId = #{record.menuparentid,jdbcType=INTEGER},
+      menuName = #{record.menuname,jdbcType=VARCHAR},
+      menuUrl = #{record.menuurl,jdbcType=VARCHAR},
+      menuImageUrl = #{record.menuimageurl,jdbcType=VARCHAR},
+      menuTIP = #{record.menutip,jdbcType=VARCHAR},
+      menuStatus = #{record.menustatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lz.model.pojo.Menus">
+    update menus
+    <set>
+      <if test="menuparentid != null">
+        menuParentId = #{menuparentid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null">
+        menuName = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null">
+        menuUrl = #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuimageurl != null">
+        menuImageUrl = #{menuimageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menutip != null">
+        menuTIP = #{menutip,jdbcType=VARCHAR},
+      </if>
+      <if test="menustatus != null">
+        menuStatus = #{menustatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lz.model.pojo.Menus">
+    update menus
+    set menuParentId = #{menuparentid,jdbcType=INTEGER},
+      menuName = #{menuname,jdbcType=VARCHAR},
+      menuUrl = #{menuurl,jdbcType=VARCHAR},
+      menuImageUrl = #{menuimageurl,jdbcType=VARCHAR},
+      menuTIP = #{menutip,jdbcType=VARCHAR},
+      menuStatus = #{menustatus,jdbcType=INTEGER}
+    where menuId = #{menuid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByGenAll" parameterType="com.lz.model.pojo.Menurela" resultMap="BaseResultMap">
+        select * from menus where
+        menuParentId=1
+        and menuId in
+        <foreach collection="list" item="smr" open="(" close=")" separator=",">
+           #{smr.menuid}
+        </foreach>
+  </select>
+</mapper>

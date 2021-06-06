@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+
+    <script src="js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/vue/axios.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<script>
+
+    $(document).ready(function () {
+        var whei = $(window).width()
+        $("html").css({ fontSize: whei / 24 });
+        $(window).resize(function () {
+            var whei = $(window).width();
+            $("html").css({ fontSize: whei / 24 })
+        });
+    });
+</script>
+<div class="main" id="indePage">
+
+    <div class="header">
+        <div class="header-center fl">
+            <div class="header-title">
+                登录界面
+            </div>
+            <div class="header-img"></div>
+        </div>
+        <div class="header-bottom fl"></div>
+
+    </div>
+
+    <div class="content">
+        <div class="content-left">
+            <!--<img src="images/d.png" alt="">-->
+        </div>
+        <div class="content-right">
+            <div class="right-infp">
+                <div class="right-infp-name">
+
+                    <input type="text" name="adminaccount" v-model="admin.adminaccount" placeholder="请输入用户名" maxlength="12" required="" value="" autocomplete="off">
+                </div>
+                <div class="right-infp-name">
+                    <input type="password" name="adminpassword" v-model="admin.adminpassword" placeholder="请输入用户名" autocomplete="off">
+                </div>
+
+                <div class="right-infp-btn">
+                    <button class="btn" v-on:click="getLogin">登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>
+<script src="js/vue/bash.js" type="text/javascript" charset="UTF-8"></script>

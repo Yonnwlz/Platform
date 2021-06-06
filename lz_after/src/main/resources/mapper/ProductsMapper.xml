@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.dao.ProductsMapper">
+  <resultMap id="BaseResultMap" type="com.lz.model.pojo.Products">
+    <id column="productsNumber" jdbcType="VARCHAR" property="productsnumber" />
+    <result column="productsName" jdbcType="VARCHAR" property="productsname" />
+    <result column="productsImagesId" jdbcType="INTEGER" property="productsimagesid" />
+    <result column="productsTypeId" jdbcType="INTEGER" property="productstypeid" />
+    <result column="productPrice" jdbcType="DECIMAL" property="productprice" />
+    <result column="productContentId" jdbcType="INTEGER" property="productcontentid" />
+    <result column="productNumberSales" jdbcType="INTEGER" property="productnumbersales" />
+    <result column="productThestoreId" jdbcType="INTEGER" property="productthestoreid" />
+    <result column="productCreatetime" jdbcType="TIMESTAMP" property="productcreatetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    productsNumber, productsName, productsImagesId, productsTypeId, productPrice, productContentId, 
+    productNumberSales, productThestoreId, productCreatetime
+  </sql>
+  <select id="selectByExample" parameterType="com.lz.model.pojo.ProductsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from products
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from products
+    where productsNumber = #{productsnumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from products
+    where productsNumber = #{productsnumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lz.model.pojo.ProductsExample">
+    delete from products
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lz.model.pojo.Products">
+    insert into products (productsNumber, productsName, productsImagesId, 
+      productsTypeId, productPrice, productContentId, 
+      productNumberSales, productThestoreId, 
+      productCreatetime)
+    values (#{productsnumber,jdbcType=VARCHAR}, #{productsname,jdbcType=VARCHAR}, #{productsimagesid,jdbcType=INTEGER}, 
+      #{productstypeid,jdbcType=INTEGER}, #{productprice,jdbcType=DECIMAL}, #{productcontentid,jdbcType=INTEGER}, 
+      #{productnumbersales,jdbcType=INTEGER}, #{productthestoreid,jdbcType=INTEGER}, 
+      #{productcreatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lz.model.pojo.Products">
+    insert into products
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productsnumber != null">
+        productsNumber,
+      </if>
+      <if test="productsname != null">
+        productsName,
+      </if>
+      <if test="productsimagesid != null">
+        productsImagesId,
+      </if>
+      <if test="productstypeid != null">
+        productsTypeId,
+      </if>
+      <if test="productprice != null">
+        productPrice,
+      </if>
+      <if test="productcontentid != null">
+        productContentId,
+      </if>
+      <if test="productnumbersales != null">
+        productNumberSales,
+      </if>
+      <if test="productthestoreid != null">
+        productThestoreId,
+      </if>
+      <if test="productcreatetime != null">
+        productCreatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productsnumber != null">
+        #{productsnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="productsname != null">
+        #{productsname,jdbcType=VARCHAR},
+      </if>
+      <if test="productsimagesid != null">
+        #{productsimagesid,jdbcType=INTEGER},
+      </if>
+      <if test="productstypeid != null">
+        #{productstypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null">
+        #{productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="productcontentid != null">
+        #{productcontentid,jdbcType=INTEGER},
+      </if>
+      <if test="productnumbersales != null">
+        #{productnumbersales,jdbcType=INTEGER},
+      </if>
+      <if test="productthestoreid != null">
+        #{productthestoreid,jdbcType=INTEGER},
+      </if>
+      <if test="productcreatetime != null">
+        #{productcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lz.model.pojo.ProductsExample" resultType="java.lang.Long">
+    select count(*) from products
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update products
+    <set>
+      <if test="record.productsnumber != null">
+        productsNumber = #{record.productsnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productsname != null">
+        productsName = #{record.productsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productsimagesid != null">
+        productsImagesId = #{record.productsimagesid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productstypeid != null">
+        productsTypeId = #{record.productstypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productprice != null">
+        productPrice = #{record.productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productcontentid != null">
+        productContentId = #{record.productcontentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productnumbersales != null">
+        productNumberSales = #{record.productnumbersales,jdbcType=INTEGER},
+      </if>
+      <if test="record.productthestoreid != null">
+        productThestoreId = #{record.productthestoreid,jdbcType=INTEGER},
+      </if>
+      <if test="record.productcreatetime != null">
+        productCreatetime = #{record.productcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update products
+    set productsNumber = #{record.productsnumber,jdbcType=VARCHAR},
+      productsName = #{record.productsname,jdbcType=VARCHAR},
+      productsImagesId = #{record.productsimagesid,jdbcType=INTEGER},
+      productsTypeId = #{record.productstypeid,jdbcType=INTEGER},
+      productPrice = #{record.productprice,jdbcType=DECIMAL},
+      productContentId = #{record.productcontentid,jdbcType=INTEGER},
+      productNumberSales = #{record.productnumbersales,jdbcType=INTEGER},
+      productThestoreId = #{record.productthestoreid,jdbcType=INTEGER},
+      productCreatetime = #{record.productcreatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lz.model.pojo.Products">
+    update products
+    <set>
+      <if test="productsname != null">
+        productsName = #{productsname,jdbcType=VARCHAR},
+      </if>
+      <if test="productsimagesid != null">
+        productsImagesId = #{productsimagesid,jdbcType=INTEGER},
+      </if>
+      <if test="productstypeid != null">
+        productsTypeId = #{productstypeid,jdbcType=INTEGER},
+      </if>
+      <if test="productprice != null">
+        productPrice = #{productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="productcontentid != null">
+        productContentId = #{productcontentid,jdbcType=INTEGER},
+      </if>
+      <if test="productnumbersales != null">
+        productNumberSales = #{productnumbersales,jdbcType=INTEGER},
+      </if>
+      <if test="productthestoreid != null">
+        productThestoreId = #{productthestoreid,jdbcType=INTEGER},
+      </if>
+      <if test="productcreatetime != null">
+        productCreatetime = #{productcreatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where productsNumber = #{productsnumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lz.model.pojo.Products">
+    update products
+    set productsName = #{productsname,jdbcType=VARCHAR},
+      productsImagesId = #{productsimagesid,jdbcType=INTEGER},
+      productsTypeId = #{productstypeid,jdbcType=INTEGER},
+      productPrice = #{productprice,jdbcType=DECIMAL},
+      productContentId = #{productcontentid,jdbcType=INTEGER},
+      productNumberSales = #{productnumbersales,jdbcType=INTEGER},
+      productThestoreId = #{productthestoreid,jdbcType=INTEGER},
+      productCreatetime = #{productcreatetime,jdbcType=TIMESTAMP}
+    where productsNumber = #{productsnumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

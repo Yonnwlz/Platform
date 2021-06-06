@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lz.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="com.lz.model.pojo.Admin">
+    <id column="adminId" jdbcType="INTEGER" property="adminid" />
+    <result column="adminName" jdbcType="VARCHAR" property="adminname" />
+    <result column="adminImage" jdbcType="VARCHAR" property="adminimage" />
+    <result column="adminAccount" jdbcType="VARCHAR" property="adminaccount" />
+    <result column="adminPassWord" jdbcType="VARCHAR" property="adminpassword" />
+    <result column="adminDetails" jdbcType="VARCHAR" property="admindetails" />
+    <result column="adminPhone" jdbcType="VARCHAR" property="adminphone" />
+    <result column="adminAddress" jdbcType="VARCHAR" property="adminaddress" />
+    <result column="adminCreateDate" jdbcType="TIMESTAMP" property="admincreatedate" />
+    <result column="adminState" jdbcType="INTEGER" property="adminstate" />
+    <result column="adminTheStoreId" jdbcType="INTEGER" property="adminthestoreid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    adminId, adminName, adminImage, adminAccount, adminPassWord, adminDetails, adminPhone, 
+    adminAddress, adminCreateDate, adminState, adminTheStoreId
+  </sql>
+  <select id="selectByExample" parameterType="com.lz.model.pojo.AdminExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lz.model.pojo.AdminExample">
+    delete from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lz.model.pojo.Admin">
+    insert into admin (adminId, adminName, adminImage, 
+      adminAccount, adminPassWord, adminDetails, 
+      adminPhone, adminAddress, adminCreateDate, 
+      adminState, adminTheStoreId)
+    values (#{adminid,jdbcType=INTEGER}, #{adminname,jdbcType=VARCHAR}, #{adminimage,jdbcType=VARCHAR}, 
+      #{adminaccount,jdbcType=VARCHAR}, #{adminpassword,jdbcType=VARCHAR}, #{admindetails,jdbcType=VARCHAR}, 
+      #{adminphone,jdbcType=VARCHAR}, #{adminaddress,jdbcType=VARCHAR}, #{admincreatedate,jdbcType=TIMESTAMP}, 
+      #{adminstate,jdbcType=INTEGER}, #{adminthestoreid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lz.model.pojo.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        adminId,
+      </if>
+      <if test="adminname != null">
+        adminName,
+      </if>
+      <if test="adminimage != null">
+        adminImage,
+      </if>
+      <if test="adminaccount != null">
+        adminAccount,
+      </if>
+      <if test="adminpassword != null">
+        adminPassWord,
+      </if>
+      <if test="admindetails != null">
+        adminDetails,
+      </if>
+      <if test="adminphone != null">
+        adminPhone,
+      </if>
+      <if test="adminaddress != null">
+        adminAddress,
+      </if>
+      <if test="admincreatedate != null">
+        adminCreateDate,
+      </if>
+      <if test="adminstate != null">
+        adminState,
+      </if>
+      <if test="adminthestoreid != null">
+        adminTheStoreId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminid != null">
+        #{adminid,jdbcType=INTEGER},
+      </if>
+      <if test="adminname != null">
+        #{adminname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminimage != null">
+        #{adminimage,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaccount != null">
+        #{adminaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpassword != null">
+        #{adminpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="admindetails != null">
+        #{admindetails,jdbcType=VARCHAR},
+      </if>
+      <if test="adminphone != null">
+        #{adminphone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaddress != null">
+        #{adminaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="admincreatedate != null">
+        #{admincreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstate != null">
+        #{adminstate,jdbcType=INTEGER},
+      </if>
+      <if test="adminthestoreid != null">
+        #{adminthestoreid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lz.model.pojo.AdminExample" resultType="java.lang.Long">
+    select count(*) from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update admin
+    <set>
+      <if test="record.adminid != null">
+        adminId = #{record.adminid,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminname != null">
+        adminName = #{record.adminname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminimage != null">
+        adminImage = #{record.adminimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminaccount != null">
+        adminAccount = #{record.adminaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminpassword != null">
+        adminPassWord = #{record.adminpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admindetails != null">
+        adminDetails = #{record.admindetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminphone != null">
+        adminPhone = #{record.adminphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminaddress != null">
+        adminAddress = #{record.adminaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admincreatedate != null">
+        adminCreateDate = #{record.admincreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adminstate != null">
+        adminState = #{record.adminstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminthestoreid != null">
+        adminTheStoreId = #{record.adminthestoreid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update admin
+    set adminId = #{record.adminid,jdbcType=INTEGER},
+      adminName = #{record.adminname,jdbcType=VARCHAR},
+      adminImage = #{record.adminimage,jdbcType=VARCHAR},
+      adminAccount = #{record.adminaccount,jdbcType=VARCHAR},
+      adminPassWord = #{record.adminpassword,jdbcType=VARCHAR},
+      adminDetails = #{record.admindetails,jdbcType=VARCHAR},
+      adminPhone = #{record.adminphone,jdbcType=VARCHAR},
+      adminAddress = #{record.adminaddress,jdbcType=VARCHAR},
+      adminCreateDate = #{record.admincreatedate,jdbcType=TIMESTAMP},
+      adminState = #{record.adminstate,jdbcType=INTEGER},
+      adminTheStoreId = #{record.adminthestoreid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lz.model.pojo.Admin">
+    update admin
+    <set>
+      <if test="adminname != null">
+        adminName = #{adminname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminimage != null">
+        adminImage = #{adminimage,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaccount != null">
+        adminAccount = #{adminaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="adminpassword != null">
+        adminPassWord = #{adminpassword,jdbcType=VARCHAR},
+      </if>
+      <if test="admindetails != null">
+        adminDetails = #{admindetails,jdbcType=VARCHAR},
+      </if>
+      <if test="adminphone != null">
+        adminPhone = #{adminphone,jdbcType=VARCHAR},
+      </if>
+      <if test="adminaddress != null">
+        adminAddress = #{adminaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="admincreatedate != null">
+        adminCreateDate = #{admincreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminstate != null">
+        adminState = #{adminstate,jdbcType=INTEGER},
+      </if>
+      <if test="adminthestoreid != null">
+        adminTheStoreId = #{adminthestoreid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lz.model.pojo.Admin">
+    update admin
+    set adminName = #{adminname,jdbcType=VARCHAR},
+      adminImage = #{adminimage,jdbcType=VARCHAR},
+      adminAccount = #{adminaccount,jdbcType=VARCHAR},
+      adminPassWord = #{adminpassword,jdbcType=VARCHAR},
+      adminDetails = #{admindetails,jdbcType=VARCHAR},
+      adminPhone = #{adminphone,jdbcType=VARCHAR},
+      adminAddress = #{adminaddress,jdbcType=VARCHAR},
+      adminCreateDate = #{admincreatedate,jdbcType=TIMESTAMP},
+      adminState = #{adminstate,jdbcType=INTEGER},
+      adminTheStoreId = #{adminthestoreid,jdbcType=INTEGER}
+    where adminId = #{adminid,jdbcType=INTEGER}
+  </update>
+
+  <!-- 分类查询 模糊条件 -->
+  <select id="selectByAdminQueryFuzzy" parameterType="com.lz.model.dto.SearchParam" resultMap="BaseResultMap">
+    select * from admin where adminId != #{searchParam.adminId}
+    <if test="!(searchParam.adminstate.equals(''))">
+      and adminstate = #{searchParam.adminstate}
+    </if>
+    <if test="searchParam.adminName != null">
+      and adminName LIKE #{searchParam.adminName}
+    </if>
+    <if test="searchParam.adminAddress != null">
+      and adminName LIKE #{searchParam.adminAddress}
+    </if>
+
+    <!--LIMIT #{searchParam.pageNum},#{searchParam.pageSize}-->
+  </select>
+</mapper>
